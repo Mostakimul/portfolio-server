@@ -12,5 +12,6 @@ router.post(
   validateRequest(experienceValidations.createExperienceValidation),
   experienceController.createExperience,
 );
+router.get('/', experienceController.getAllExperience);
 
 export const experienceRoutes = router;

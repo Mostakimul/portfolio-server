@@ -21,6 +21,13 @@ const createExperienceService = async (
   return result;
 };
 
+const getAllExperienceService = async () => {
+  const result = await Experience.find();
+
+  return result;
+};
+
 export const experienceServices = {
   createExperienceService,
+  getAllExperienceService,
 };
