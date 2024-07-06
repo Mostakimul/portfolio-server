@@ -3,8 +3,8 @@ import express, { NextFunction, Request, Response } from 'express';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { upload } from '../../shared/sendImageToCloudinary';
-import { skillControllers } from './skill.controller';
-import { skillsValidations } from './skill.vlidation';
+import { projectControllers } from './project.controller';
+import { projectsValidations } from './project.vlidation';
 
 const router = express.Router();
 
@@ -16,10 +16,10 @@ router.post(
     req.body = JSON.parse(req.body.data);
     next();
   },
-  validateRequest(skillsValidations.createSkillValidation),
-  skillControllers.createSkill,
+  validateRequest(projectsValidations.createProjectValidation),
+  projectControllers.createProject,
 );
 
-router.get('/', skillControllers.getAllSkills);
+router.get('/', projectControllers.getAllProject);
 
-export const skillRoutes = router;
+export const projectRoutes = router;
