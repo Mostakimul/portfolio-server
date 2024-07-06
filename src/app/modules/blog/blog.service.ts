@@ -45,7 +45,13 @@ const getAllBlogsService = async () => {
   return result;
 };
 
+const getSingleBlogService = async (payload: string) => {
+  const result = await Blog.findById(payload);
+  return result;
+};
+
 export const blogServices = {
   createBlogService,
   getAllBlogsService,
+  getSingleBlogService,
 };

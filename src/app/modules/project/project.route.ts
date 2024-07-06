@@ -21,5 +21,6 @@ router.post(
 );
 
 router.get('/', projectControllers.getAllProject);
+router.get('/:id', projectControllers.getSingleProject);
 
 export const projectRoutes = router;

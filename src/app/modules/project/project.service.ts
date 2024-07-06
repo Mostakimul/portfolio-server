@@ -45,7 +45,13 @@ const getAllProjectService = async () => {
   return result;
 };
 
+const getSingleProjectService = async (payload: string) => {
+  const result = await Project.findById(payload);
+  return result;
+};
+
 export const projectServices = {
   createProjectService,
   getAllProjectService,
+  getSingleProjectService,
 };
