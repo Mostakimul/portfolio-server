@@ -39,6 +39,13 @@ const createBlogService = async (file: any, payload: BlogType) => {
   }
 };
 
-export const BlogServices = {
+const getAllBlogsService = async () => {
+  const result = await Blog.find();
+
+  return result;
+};
+
+export const blogServices = {
   createBlogService,
+  getAllBlogsService,
 };

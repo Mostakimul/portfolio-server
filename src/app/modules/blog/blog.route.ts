@@ -3,7 +3,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { upload } from '../../shared/sendImageToCloudinary';
-import { BlogControllers } from './blog.controller';
+import { blogControllers } from './blog.controller';
 import { blogsValidations } from './blog.vlidation';
 
 const router = express.Router();
@@ -17,7 +17,9 @@ router.post(
     next();
   },
   validateRequest(blogsValidations.createBlogValidation),
-  BlogControllers.createBlog,
+  blogControllers.createBlog,
 );
+
+router.get('/', blogControllers.getAllBlogs);
 
 export const blogRoutes = router;
