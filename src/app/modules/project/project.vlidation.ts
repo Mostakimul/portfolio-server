@@ -1,16 +1,22 @@
 import { z } from 'zod';
 
 const badgeSchema = z.object({
-  title: z.string(),
-  link: z.string(),
+  title: z.string({
+    required_error: 'Badge title is required',
+  }),
+  link: z.string({
+    required_error: 'Link is required',
+  }),
 });
 
 const createProjectValidation = z.object({
-  body: z.object({
-    title: z.string(),
-    description: z.string(),
-    badges: z.array(badgeSchema),
+  title: z.string({
+    required_error: 'Title is required',
   }),
+  description: z.string({
+    required_error: 'Description is required',
+  }),
+  badges: z.array(badgeSchema),
 });
 
 export const projectsValidations = {

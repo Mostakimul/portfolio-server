@@ -1,10 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { randomUUID } from 'crypto';
 import httpStatus from 'http-status';
 import mongoose from 'mongoose';
 import AppError from '../../errors/AppError';
-import { sendImageToCloudinary } from '../../shared/sendImageToCloudinary';
+import { fileUploader } from '../../shared/sendImageToCloudinary';
 import { SkillType } from './skill.interface';
 import { Skill } from './skill.model';
 
@@ -15,11 +14,8 @@ const createSkillService = async (file: any, payload: SkillType) => {
     session.startTransaction();
 
     if (file) {
-      const imageName = `${payload.skill}${randomUUID()}`;
-      const path = file?.path;
-
-      const { secure_url } = await sendImageToCloudinary(imageName, path);
-      payload.icon = secure_url as string;
+      const uploadToCloudinary = await fileUploader.uploadToCloudinary(file);
+      payload.icon = uploadToCloudinary?.secure_url;
     }
 
     const newSkill = await Skill.create([payload], { session });

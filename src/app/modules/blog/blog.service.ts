@@ -1,10 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { randomUUID } from 'crypto';
 import httpStatus from 'http-status';
 import mongoose from 'mongoose';
 import AppError from '../../errors/AppError';
-import { sendImageToCloudinary } from '../../shared/sendImageToCloudinary';
+import { fileUploader } from '../../shared/sendImageToCloudinary';
 import { BlogType } from './blog.interface';
 import { Blog } from './blog.model';
 
@@ -15,11 +14,8 @@ const createBlogService = async (file: any, payload: BlogType) => {
     session.startTransaction();
 
     if (file) {
-      const imageName = `${payload.author}${randomUUID()}`;
-      const path = file?.path;
-
-      const { secure_url } = await sendImageToCloudinary(imageName, path);
-      payload.coverImage = secure_url as string;
+      const uploadToCloudinary = await fileUploader.uploadToCloudinary(file);
+      payload.coverImage = uploadToCloudinary?.secure_url;
     }
 
     const newBlog = await Blog.create([payload], { session });

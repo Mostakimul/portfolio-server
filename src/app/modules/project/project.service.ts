@@ -1,10 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { randomUUID } from 'crypto';
 import httpStatus from 'http-status';
 import mongoose from 'mongoose';
 import AppError from '../../errors/AppError';
-import { sendImageToCloudinary } from '../../shared/sendImageToCloudinary';
+import { fileUploader } from '../../shared/sendImageToCloudinary';
 import { ProjectType } from './project.interface';
 import { Project } from './project.model';
 
@@ -15,11 +14,8 @@ const createProjectService = async (file: any, payload: ProjectType) => {
     session.startTransaction();
 
     if (file) {
-      const imageName = `${payload.title}${randomUUID()}`;
-      const path = file?.path;
-
-      const { secure_url } = await sendImageToCloudinary(imageName, path);
-      payload.imageSrc = secure_url as string;
+      const uploadToCloudinary = await fileUploader.uploadToCloudinary(file);
+      payload.imageSrc = uploadToCloudinary?.secure_url as string;
     }
 
     const newProject = await Project.create([payload], { session });

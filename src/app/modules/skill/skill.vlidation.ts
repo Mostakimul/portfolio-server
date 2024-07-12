@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 const createSkillValidation = z.object({
-  body: z.object({
-    skill: z.string(),
+  skill: z.string({
+    required_error: 'Skill is required',
   }),
 });
 
