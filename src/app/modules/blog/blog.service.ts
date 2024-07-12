@@ -9,6 +9,7 @@ import { Blog } from './blog.model';
 
 const createBlogService = async (file: any, payload: BlogType) => {
   const session = await mongoose.startSession();
+  payload.author = 'Mostakimul Karim';
 
   try {
     session.startTransaction();
