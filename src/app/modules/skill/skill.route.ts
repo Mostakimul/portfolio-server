@@ -19,6 +19,24 @@ router.post(
   },
 );
 
+router.get('/:id', skillControllers.getSingleSkill);
+
+router.patch(
+  '/:id',
+  auth(),
+  fileUploader.upload.single('file'),
+  (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.data) {
+      req.body = skillsValidations.createSkillValidation.parse(
+        JSON.parse(req.body.data),
+      );
+    }
+    return skillControllers.updateSkill(req, res, next);
+  },
+);
+
+router.delete('/:id', auth(), skillControllers.deleteSkill);
+
 router.get('/', skillControllers.getAllSkills);
 
 export const skillRoutes = router;

@@ -25,7 +25,55 @@ const getAllSkills = catchAsync(async (req, res) => {
   });
 });
 
+const getSingleSkill = catchAsync(async (req, res) => {
+  const id = req.params.id;
+
+  const result = await skillServices.getSingleSkillService(id);
+
+  sendResponse(res, {
+    success: true,
+    message: 'Skill fetched successfully',
+    data: result,
+    statusCode: httpStatus.OK,
+  });
+});
+
+const updateSkill = catchAsync(async (req, res) => {
+  const id = req.params.id;
+
+  const result = await skillServices.updateSkillService(
+    req.user,
+    req.file,
+    req.body,
+    id,
+  );
+
+  sendResponse(res, {
+    success: true,
+    message: 'Skill updated successfully',
+    data: result,
+    statusCode: httpStatus.OK,
+  });
+});
+
+const deleteSkill = catchAsync(async (req, res) => {
+  const result = await skillServices.deleteSkillService(
+    req.params.id,
+    req.user,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Skill deleted successfully',
+    data: result,
+  });
+});
+
 export const skillControllers = {
   createSkill,
   getAllSkills,
+  getSingleSkill,
+  updateSkill,
+  deleteSkill,
 };
