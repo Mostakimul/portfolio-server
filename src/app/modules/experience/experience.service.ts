@@ -27,7 +27,55 @@ const getAllExperienceService = async () => {
   return result;
 };
 
+const getSingleExperienceService = async (id: string) => {
+  const result = await Experience.findById(id);
+  return result;
+};
+
+const updateExperienceService = async (
+  id: string,
+  payload: Partial<ExperienceType>,
+  user: JwtPayload,
+) => {
+  const isProductExist = await Experience.findOne({ _id: id });
+  if (!isProductExist) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Item not found');
+  }
+
+  const existingUser = await User.findOne({
+    email: user?.email,
+  });
+  if (!existingUser) {
+    throw new AppError(httpStatus.UNAUTHORIZED, 'You are not allowed!');
+  }
+
+  const result = await Experience.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+  return result;
+};
+
+const deleteExperienceService = async (id: string, user: JwtPayload) => {
+  const isExist = await Experience.findById(id);
+  if (!isExist) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Item not found!');
+  }
+
+  const existingUser = await User.findOne({
+    email: user?.email,
+  });
+  if (!existingUser) {
+    throw new AppError(httpStatus.UNAUTHORIZED, 'You are not allowed!');
+  }
+  const result = await Experience.deleteOne({ _id: id });
+
+  return result;
+};
+
 export const experienceServices = {
   createExperienceService,
   getAllExperienceService,
+  getSingleExperienceService,
+  updateExperienceService,
+  deleteExperienceService,
 };

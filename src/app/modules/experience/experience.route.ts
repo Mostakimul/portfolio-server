@@ -12,6 +12,18 @@ router.post(
   validateRequest(experienceValidations.createExperienceValidation),
   experienceController.createExperience,
 );
+
+router.get('/:id', experienceController.getSingleExperience);
+
+router.patch(
+  '/:id',
+  auth(),
+  validateRequest(experienceValidations.updateExperienceValidation),
+  experienceController.updateExperience,
+);
+
+router.delete('/:id', auth(), experienceController.deleteExperience);
+
 router.get('/', experienceController.getAllExperience);
 
 export const experienceRoutes = router;
