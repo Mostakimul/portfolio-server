@@ -19,7 +19,23 @@ router.post(
   },
 );
 
-router.get('/', projectControllers.getAllProject);
+router.patch(
+  '/:id',
+  auth(),
+  fileUploader.upload.single('file'),
+  (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.data) {
+      req.body = projectsValidations.updateProjectValidation.parse(
+        JSON.parse(req.body.data),
+      );
+    }
+    return projectControllers.updateProject(req, res, next);
+  },
+);
+
 router.get('/:id', projectControllers.getSingleProject);
+router.delete('/:id', auth(), projectControllers.deleteProject);
+
+router.get('/', projectControllers.getAllProject);
 
 export const projectRoutes = router;

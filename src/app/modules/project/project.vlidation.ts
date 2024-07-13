@@ -19,6 +19,13 @@ const createProjectValidation = z.object({
   badges: z.array(badgeSchema),
 });
 
+const updateProjectValidation = z.object({
+  title: z.string().optional(),
+  description: z.string().optional(),
+  badges: z.array(badgeSchema).optional(),
+});
+
 export const projectsValidations = {
   createProjectValidation,
+  updateProjectValidation,
 };
