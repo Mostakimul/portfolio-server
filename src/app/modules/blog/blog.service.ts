@@ -47,8 +47,38 @@ const getSingleBlogService = async (payload: string) => {
   return result;
 };
 
+const updateBlogService = async (
+  file: any,
+  payload: Partial<BlogType>,
+  id: string,
+) => {
+  if (file) {
+    const uploadToCloudinary = await fileUploader.uploadToCloudinary(file);
+    payload.coverImage = uploadToCloudinary?.secure_url;
+  }
+
+  const result = await Blog.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+
+  return result;
+};
+
+const deleteBlogService = async (id: string) => {
+  const isExist = await Blog.findById(id);
+  if (!isExist) {
+    throw new AppError(httpStatus.NOT_FOUND, 'Item not found!');
+  }
+
+  const result = await Blog.deleteOne({ _id: id });
+
+  return result;
+};
+
 export const blogServices = {
   createBlogService,
   getAllBlogsService,
   getSingleBlogService,
+  updateBlogService,
+  deleteBlogService,
 };

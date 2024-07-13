@@ -19,7 +19,23 @@ router.post(
   },
 );
 
-router.get('/', blogControllers.getAllBlogs);
+router.patch(
+  '/:id',
+  auth(),
+  fileUploader.upload.single('file'),
+  (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.data) {
+      req.body = blogsValidations.updateBlogValidation.parse(
+        JSON.parse(req.body.data),
+      );
+    }
+    return blogControllers.updateBlog(req, res, next);
+  },
+);
+
+router.delete('/:id', auth(), blogControllers.deleteBlog);
+
 router.get('/:id', blogControllers.getSingleBlog);
+router.get('/', blogControllers.getAllBlogs);
 
 export const blogRoutes = router;

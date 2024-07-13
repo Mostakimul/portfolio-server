@@ -9,6 +9,20 @@ const createBlogValidation = z.object({
   }),
 });
 
+const updateBlogValidation = z.object({
+  title: z
+    .string({
+      required_error: 'Title is required',
+    })
+    .optional(),
+  content: z
+    .string({
+      required_error: 'Content is required',
+    })
+    .optional(),
+});
+
 export const blogsValidations = {
   createBlogValidation,
+  updateBlogValidation,
 };
