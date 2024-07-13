@@ -21,7 +21,7 @@ router.post(
 
 router.get('/:id', skillControllers.getSingleSkill);
 
-router.patch(
+router.put(
   '/:id',
   auth(),
   fileUploader.upload.single('file'),

@@ -15,7 +15,7 @@ router.post(
 
 router.get('/:id', experienceController.getSingleExperience);
 
-router.patch(
+router.put(
   '/:id',
   auth(),
   validateRequest(experienceValidations.updateExperienceValidation),

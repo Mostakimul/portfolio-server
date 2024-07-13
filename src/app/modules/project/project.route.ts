@@ -19,7 +19,7 @@ router.post(
   },
 );
 
-router.patch(
+router.put(
   '/:id',
   auth(),
   fileUploader.upload.single('file'),
